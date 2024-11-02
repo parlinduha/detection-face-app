@@ -40,6 +40,8 @@ class OverlayView(context: Context?, attrs: AttributeSet?) :
     private var scaleFactor: Float = 1f
     private var numFacesCaptured = 0
     private var bounds = Rect()
+    private var confidence: Float = 0.9f
+    private var faceId: String = "18707611416"
     // Handler for delayed face capture
 
     private var isFaceDetectedFor2Seconds = false

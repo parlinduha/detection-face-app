@@ -59,7 +59,7 @@ class FaceDetectorHelper(
     // that are created on the main thread and used on a background thread, but
     // the GPU delegate needs to be used on the thread that initialized the detector
     fun setupFaceDetector() {
-        // Set general detection options, including number of used threads
+        // Set general detection options, including the number of used threads
         val baseOptionsBuilder = BaseOptions.builder()
 
         // Use the specified hardware for running the model. Default to CPU
@@ -127,7 +127,7 @@ class FaceDetectorHelper(
         }
     }
 
-    // Return running status of recognizer helper
+    // Return running status of the recognizer helper
     fun isClosed(): Boolean {
         return faceDetector == null
     }
@@ -223,7 +223,12 @@ class FaceDetectorHelper(
         return if (didErrorOccurred) {
             null
         } else {
-            ResultBundle(resultList, inferenceTimePerFrameMs, height, width)
+            ResultBundle(
+                resultList,
+                inferenceTimePerFrameMs,
+                height,
+                width
+            )
         }
     }
 

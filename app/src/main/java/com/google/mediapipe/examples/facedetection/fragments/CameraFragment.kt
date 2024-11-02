@@ -287,24 +287,53 @@ class CameraFragment : Fragment(), FaceDetectorHelper.DetectorListener {
 
     // Update UI after faces have been detected. Extracts original image height/width
     // to scale and place bounding boxes properly through OverlayView
+//    override fun onResults(resultBundle: FaceDetectorHelper.ResultBundle) {
+//        activity?.runOnUiThread {
+//            if (_fragmentCameraBinding != null) {
+//                fragmentCameraBinding.bottomSheetLayout.inferenceTimeVal.text =
+//                    String.format("%d ms", resultBundle.inferenceTime)
+//
+//                // Pass necessary information to OverlayView for drawing on the canvas
+//                val detectionResult = resultBundle.results[0]
+//                if (isAdded) {
+//                    fragmentCameraBinding.overlay.setResults(
+//                        detectionResult,
+//                        resultBundle.inputImageHeight,
+//                        resultBundle.inputImageWidth
+//                    )
+//                }
+//
+//                // Force a redraw
+//                fragmentCameraBinding.overlay.invalidate()
+//            }
+//        }
+//    }
+
     override fun onResults(resultBundle: FaceDetectorHelper.ResultBundle) {
         activity?.runOnUiThread {
             if (_fragmentCameraBinding != null) {
                 fragmentCameraBinding.bottomSheetLayout.inferenceTimeVal.text =
                     String.format("%d ms", resultBundle.inferenceTime)
 
-                // Pass necessary information to OverlayView for drawing on the canvas
-                val detectionResult = resultBundle.results[0]
-                if (isAdded) {
-                    fragmentCameraBinding.overlay.setResults(
-                        detectionResult,
-                        resultBundle.inputImageHeight,
-                        resultBundle.inputImageWidth
-                    )
-                }
+                // Check if at least one face is detected
+                if (resultBundle.results.isNotEmpty()) {
+                    val firstFace = resultBundle.results[0]
 
-                // Force a redraw
-                fragmentCameraBinding.overlay.invalidate()
+                    // Log the information about the detected face
+                    Log.d(TAG, "Face detected - ID: ${firstFace}")
+
+                    // Perform actions for valid face detection
+                    if (isAdded) {
+                        fragmentCameraBinding.overlay.setResults(
+                            firstFace,
+                            resultBundle.inputImageHeight,
+                            resultBundle.inputImageWidth
+                        )
+                    }
+
+                    // Force a redraw
+                    fragmentCameraBinding.overlay.invalidate()
+                }
             }
         }
     }
